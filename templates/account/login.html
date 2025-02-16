@@ -1,0 +1,52 @@
+
+{% load static %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    
+</head>
+<body class="bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 flex items-center justify-center min-h-screen">
+
+  <!-- Login Form Container -->
+  <div class="bg-white p-8 rounded-lg shadow-xl max-w-sm w-full">
+    <h2 class="text-3xl font-semibold text-center text-gray-800 mb-6">Login</h2>
+
+    <form method="POST" action="{% url 'account_login' %}" class="space-y-4">
+       
+      {% csrf_token %}
+      <!-- Render the crispy form -->
+      {{ form|crispy }}
+
+      {% if redirect_field_value %}
+      <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+      {% endif %}
+
+      <!-- Submit Button -->
+      <div>
+        <button
+          type="submit"
+          class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition text-2xl"
+        >
+          {% trans "Sign In" %}
+        </button>
+      </div>
+    </form>
+
+    <!-- Links -->
+    <div class="text-center mt-4">
+      <a href="/accounts/password/reset" class="text-pink-500 hover:underline">Forgot Password?</a>
+      <p class="text-center text-sm text-gray-600 mt-4">
+        If you are new, <a href="/accounts/signup" class="text-blue-600 hover:underline">click here</a> to create an account.
+      </p>
+    </div>
+  </div>
+
+</body>
+</html>

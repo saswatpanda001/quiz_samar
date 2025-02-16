@@ -1,0 +1,434 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quiz</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    .star-rating input {
+      display: none;
+    }
+    .star-rating label {
+      cursor: pointer;
+    }
+    .star-rating label:hover ~ label svg,
+    .star-rating label:hover svg,
+    .star-rating input:checked ~ label svg {
+      fill: #FBBF24;
+    }
+  </style>
+</head>
+<body class="bg-gray-50 min-h-screen font-sans">
+  <!-- Header -->
+  <header class="bg-white shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16">
+        <div class="flex-shrink-0">
+          <h1 class="text-2xl font-bold text-gray-900">Guhuza</h1>
+        </div>
+        <div class="flex space-x-4">
+          <div class="text-sm">
+            <span class="text-gray-500">Quiz Timer:</span>
+            <span id="quizTimer" class="ml-2 font-medium">{{ quiz_data.total_time }}</span>
+            <span>seconds</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Quiz Container -->
+    <div id="quizContainer" class="space-y-6">
+      <!-- Progress Bar -->
+      <div class="bg-white rounded-lg shadow-sm p-4">
+        <div class="space-y-2">
+          <div class="flex justify-between text-sm text-gray-600">
+            <span>Progress Bar</span>
+            <span id="progressText">
+              Question <span id="question_number">{{ ques_data.num }}</span>/10
+            </span>
+          </div>
+          <div class="w-full bg-gray-200 rounded-full h-2">
+            <div
+              id="progressBar"
+              class="bg-blue-600 h-2 rounded-full transition-all duration-300"
+              style="width: 0%"
+            ></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Level & Time Remaining -->
+      <div class="grid grid-cols-2 gap-4">
+        <!-- Level -->
+        <div class="bg-white rounded-lg shadow-sm p-4">
+          <div class="text-sm text-gray-500">Level</div>
+          <div id="questionTimer" class="text-2xl font-bold text-green-600">
+            {{ quiz_data.current_level }}
+          </div>
+        </div>
+        <!-- Time Remaining -->
+        <div class="bg-white rounded-lg shadow-sm p-4">
+          <div class="text-sm text-gray-500">Time Remaining</div>
+          <div class="text-2xl font-bold text-red-800">
+            <span id="timeRemaining">10</span> <span>Sec</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quiz Content -->
+      <div class="bg-white rounded-lg shadow-sm p-6">
+        <!-- Difficulty Level -->
+        <div class="mb-4">
+          <span
+            class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800"
+            id="difficultyLevel"
+          >
+            Number {{ ques_data.num }}
+          </span>
+        </div>
+
+        <!-- Question -->
+        <h2 id="questionText" class="text-xl font-semibold text-gray-900 mb-6">
+          {{ ques_data.question }}
+        </h2>
+
+        <!-- Answer Options -->
+        <div id="answerOptions" class="space-y-3 mb-6">
+          <button
+            id="option1"
+            onclick="highlightOption(this)"
+            class="option-btn w-full text-left px-4 py-3 rounded-lg border border-gray-200 hover:border-blue-500 hover:bg-blue-50 transition-colors"
+          >
+            {{ ques_data.option1 }}
+          </button>
+          <button
+            id="option2"
+            onclick="highlightOption(this)"
+            class="option-btn w-full text-left px-4 py-3 rounded-lg border border-gray-200 hover:border-blue-500 hover:bg-blue-50 transition-colors"
+          >
+            {{ ques_data.option2 }}
+          </button>
+          <button
+            id="option3"
+            onclick="highlightOption(this)"
+            class="option-btn w-full text-left px-4 py-3 rounded-lg border border-gray-200 hover:border-blue-500 hover:bg-blue-50 transition-colors"
+          >
+            {{ ques_data.option3 }}
+          </button>
+          <button
+            id="option4"
+            onclick="highlightOption(this)"
+            class="option-btn w-full text-left px-4 py-3 rounded-lg border border-gray-200 hover:border-blue-500 hover:bg-blue-50 transition-colors"
+          >
+            {{ ques_data.option4 }}
+          </button>
+        </div>
+
+        <!-- Feedback Section (Hidden by default) -->
+        <div id="feedbackSection" class="hidden space-y-4 mb-6 p-4 bg-gray-100 rounded">
+          <div>
+            Correct Option: Option
+            <span id="correctOption">{{ ques_data.correct_option }}</span>
+          </div>
+          <div class="rounded-lg">
+            Correct Answer: {{ ques_data.correct_answer }}
+          </div>
+        </div>
+
+        <!-- Navigation Buttons -->
+        <div class="flex justify-between items-center">
+            <button
+            id="submitAnswer"
+            disabled
+            class="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+          >
+            Submit Answer
+          </button>
+          <button
+            id="nextQuestion"
+            class="px-6 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 transition-colors hidden"
+          >
+            Next Question
+          </button>
+        </div>
+
+        <div>
+       
+            <button
+            id="submitQuiz"
+            
+            class="my-4 px-6 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors"
+            >
+                Submit Quiz
+            </button>
+    
+    </div>
+
+      </div>
+    </div>
+    <p id="quiz_id" class="hidden">{{quiz_data.quiz_id}}</p>
+    <p id="quiz_level" class="hidden">{{ques_data.levels}}</p>
+    <p id="quiz_qno" class="hidden">{{ques_data.num}}</p>
+  </main>
+
+  <script>
+    let status = "";
+    let score = 0;
+    let totalTimeSpend = parseInt(document.getElementById("quizTimer").textContent,10);
+    console.log("total spend: ",totalTimeSpend);
+
+    let qid = document.getElementById("quiz_id").textContent
+    let qlevel = document.getElementById("quiz_level").textContent
+    let qno = document.getElementById("quiz_qno").textContent
+
+
+    // Global variables
+    let selectedOption = null;
+    let isSubmitted = false;
+    let timeLeft = 10; // initial seconds for the question
+    let timeRemainingInterval;
+
+    // Start the countdown timer for the question
+    function startTimer() {
+      const timerEl = document.getElementById("timeRemaining");
+      timeRemainingInterval = setInterval(() => {
+        timeLeft--;
+        if (timeLeft <= 0) {
+          timeLeft = 0;
+          timerEl.textContent = timeLeft;
+          clearInterval(timeRemainingInterval);
+          // Auto-submit if not already submitted
+          if (!isSubmitted) {
+            status="skipped";
+            console.log(status);
+            submitAnswer();
+          }
+        } else {
+          timerEl.textContent = timeLeft;
+        }
+      }, 1000);
+    }
+    startTimer();
+
+    // Total quiz time counter (keeps counting up)
+    function timeSpend() {
+      let totalTimeSpendElement = document.getElementById("quizTimer");
+      let totalTimeSpend = parseInt(totalTimeSpendElement.textContent, 10);
+      setInterval(() => {
+        totalTimeSpend++;
+        totalTimeSpendElement.textContent = totalTimeSpend;
+        console.log(totalTimeSpend);
+      }, 1000);
+    }
+    timeSpend();
+
+    // Highlight an option when clicked
+    function highlightOption(clickedButton) {
+        if (isSubmitted) return;
+        
+        // Remove highlight from all options
+        const buttons = document.querySelectorAll(".option-btn");
+        buttons.forEach((btn) => {
+            btn.classList.remove("bg-blue-200", "border-blue-500", "text-blue-800");
+        });
+        
+        // Highlight the clicked option
+        clickedButton.classList.add("bg-blue-200", "border-blue-500", "text-blue-800");
+        selectedOption = clickedButton.id.slice(-1);
+        
+        // Enable the submit button once an option is selected
+        document.getElementById("submitAnswer").disabled = false;
+    }
+
+
+    function submitAnswer() {
+        if (isSubmitted) return;
+        isSubmitted = true;
+
+        clearInterval(timeRemainingInterval);
+
+        let correctOption = document.getElementById("correctOption").textContent.trim();
+        console.log(correctOption);
+     
+        if (selectedOption === null) {
+            selectedOption = "none";
+        }
+
+        if (selectedOption === correctOption) {
+            let selectedButton = document.getElementById("option" + selectedOption);
+            if (selectedButton) {
+            selectedButton.classList.add("bg-green-200", "border-green-500", "text-green-800");
+            }
+            score=4;
+            status="correct";
+            console.log(status);
+        } else {
+            if (selectedOption !== "none") {
+            let selectedButton = document.getElementById("option" + selectedOption);
+            if (selectedButton) {
+                selectedButton.classList.add("bg-red-200", "border-red-500", "text-red-800");
+                status="incorrect";
+                score=0;
+                console.log(status);
+            }
+            }
+            let correctButton = document.getElementById("option" + correctOption);
+            if (correctButton) {
+            correctButton.classList.add("bg-green-200", "border-green-500", "text-green-800");
+            }
+        }
+
+        document.getElementById("feedbackSection").classList.remove("hidden");
+
+        // Hide the submit button after submission
+        document.getElementById("submitAnswer").classList.add("hidden");
+
+        // Show the Next Question button
+        document.getElementById("nextQuestion").classList.remove("hidden");
+        sendQuizData()
+    }
+
+
+    // Attach event listener to the submit button
+    document.getElementById("submitAnswer").addEventListener("click", submitAnswer);
+
+    // Next Question functionality (for demo, simply reloads the page)
+    document.getElementById("nextQuestion").addEventListener("click", function () {
+      // In a real quiz, load the next question via AJAX or navigate to another URL
+      location.reload();
+    });
+
+    // Update the progress bar based on the current question number
+    function updateProgressBar() {
+      const questionNumberElement = document.getElementById("question_number");
+      const questionNumber = parseInt(questionNumberElement.textContent, 10);
+      const percentage = (questionNumber / 10) * 100;
+      const progressBar = document.getElementById("progressBar");
+      progressBar.style.width = percentage + "%";
+    }
+    updateProgressBar();
+
+
+
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== "") {
+        const cookies = document.cookie.split(";");
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Check if this cookie string begins with the name we want.
+            if (cookie.substring(0, name.length + 1) === (name + "=")) {
+            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+            break;
+            }
+        }
+        }
+        return cookieValue;
+    }
+
+    const csrftoken = getCookie("csrftoken");
+
+    // Construct the URL based on your Django URL pattern.
+    // For example: /quiz/<quiz_idd>/<level>/<ques>/
+    const url = `/quiz/update`;
+ 
+    // Function to send the AJAX POST request
+    function sendQuizData() {
+        console.log("sending_data_for_update");
+        fetch(url, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+           
+        },
+        body: JSON.stringify({
+            status: status,
+            score: score,
+            qid:qid,
+            qlevel:qlevel,
+            qno:qno,
+            totalTimeSpend:totalTimeSpend,
+            selectedOption:selectedOption
+        
+        })
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log("Success:", data);
+            console.log("new_q",qno);
+            console.log("new_l",qlevel)
+            
+        })
+        .catch(error => {
+            console.error("Error:", error);
+        });
+    }
+
+    document.getElementById("nextQuestion").addEventListener("click", function() {
+        if(qlevel==50){
+            if(qno==10){
+                window.location.href = `/quiz/${qid}/${qlevel}/complete`;
+            }
+            else{
+                const ques_no = parseInt(qno,10)+1
+                window.location.href = `/quiz/${qid}/${qlevel}/${ques_no}`;
+            }
+        }
+        else{
+            if(qno==10){
+                window.location.href = `/level/${qid}/${qlevel}`;
+            }
+            else{
+                const ques_no = parseInt(qno,10)+1
+                const url =  `/quiz/${qid}/${qlevel}/${ques_no}`
+                console.log(url)
+                window.location.href = `/quiz/${qid}/${qlevel}/${ques_no}`;
+            }
+
+        }        
+    });
+
+    document.getElementById("submitQuiz").addEventListener("click", function() {
+      window.location.href = `/quiz/${qid}/${qlevel}/complete`;
+
+
+    });
+
+
+
+
+
+
+
+    history.pushState(null, null, location.href);
+  window.addEventListener('popstate', function (event) {
+    // When user clicks back, push the current state again to prevent back navigation
+    history.pushState(null, null, location.href);
+  });
+
+
+    // Disable reload via Ctrl+R and F5 key
+    document.addEventListener("keydown", function (event) {
+        // Check for Ctrl+R (or Cmd+R on Mac) or F5
+        if ((event.ctrlKey && (event.key === 'r' || event.key === 'R')) || event.keyCode === 116) {
+        event.preventDefault();
+        // Optionally, show a message to the user
+        console.log("Page reload disabled");
+        }
+    });
+
+
+
+
+  </script>
+</body>
+</html>

@@ -1,0 +1,116 @@
+
+
+
+
+
+
+
+
+
+
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Application</title>
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+</head>
+<body class="bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 font-sans">
+
+    <!-- Navbar -->
+    <nav class="bg-blue-600 p-4 text-white shadow-md">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-xl font-semibold">Quiz App</h1>
+            <span id="timer" class="text-lg font-bold">Time: 30s</span>
+        </div>
+    </nav>
+
+    <!-- Quiz Container -->
+    <div class="max-w-2xl mx-auto mt-10 bg-white p-6 rounded-lg shadow-lg">
+        <h2 class="text-2xl font-bold text-center mb-4">General Knowledge Quiz</h2>
+        <h3 class="text-2xl font-bold text-center mb-4">Level 1</h2>
+
+        
+
+        <!-- Questions -->
+        <form id="quizForm">
+            {% for each in data%}
+            <div class="mb-4">
+                <p class="font-semibold">1. {{each.question}}</p>
+                <label class="block"><input type="radio" name="q1" value="A"> A) {{each.answers}} </label>
+                <label class="block"><input type="radio" name="q1" value="B"> B) {{each.answers}}</label>
+                <label class="block"><input type="radio" name="q1" value="C"> C) {{each.answers}}</label>
+                <label class="block"><input type="radio" name="q1" value="D"> D) {{each.answers}}</label>
+            </div>
+            {% endfor %}
+
+           
+
+            <!-- Submit Button -->
+            <button type="button" onclick="submitQuiz()" class="w-full bg-blue-600 text-white py-2 rounded-md font-bold hover:bg-blue-700 transition">
+                Submit Quiz
+            </button>
+        </form>
+
+        <!-- Score Display -->
+        <div id="result" class="mt-4 text-center font-bold text-lg hidden"></div>
+    </div>
+
+    <script>
+
+        const answers = {
+            q1: "C", // Paris
+            q2: "B", // William Shakespeare
+            q3: "C", // Jupiter
+            q4: "B"  // Nile River
+        };
+
+        let level =1;
+
+        console
+        let timeLeft = 30;
+        let timerInterval;
+
+        const level_data = fetch(level_url[level]) 
+                            .then(response => response.json())
+                            .then(data => console.log(data));
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                document.getElementById("timer").innerText = `Time: ${timeLeft}s`;
+                if (timeLeft === 0) {
+                    clearInterval(timerInterval);
+                    submitQuiz(); // Auto-submit when time runs out
+                }
+                timeLeft--;
+            }, 1000);
+        }
+
+        function submitQuiz() {
+            clearInterval(timerInterval); // Stop Timer
+            let score = 0;
+            
+            // Check Answers
+            Object.keys(answers).forEach((question) => {
+                const selected = document.querySelector(`input[name="${question}"]:checked`);
+                if (selected && selected.value === answers[question]) {
+                    score++;
+                }
+            });
+
+            // Show Result
+            const resultDiv = document.getElementById("result");
+            resultDiv.innerHTML = `Your Score: ${score} / 4`;
+            resultDiv.classList.remove("hidden");
+        }
+
+        // Start Timer on Page Load
+        window.onload = startTimer;
+    </script>
+
+</body>
+</html>

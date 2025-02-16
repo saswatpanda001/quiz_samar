@@ -1,0 +1,67 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Rules</title>
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    
+</head>
+<body class="bg-gradient-to-r from-blue-500 to-purple-600 min-h-screen flex items-center justify-center">
+
+<!-- Header -->
+<header class="bg-black/80 backdrop-blur-sm fixed w-full top-0 z-50">
+    <nav class="container mx-auto px-4 py-3 flex items-center justify-between">
+        <div class="flex items-center">
+            <span class="text-logo">Guhuza</span>
+        </div>
+        
+        <style>
+            /* Basic styling for the text logo */
+            .text-logo {
+                font-family: 'Arial', sans-serif; /* You can change this to any font-family you prefer */
+                font-size: 2rem; /* Adjust the size as needed */
+                font-weight: bold;
+                color: white; /* Change the color to match your theme */
+                text-transform: uppercase;
+            }
+        
+            /* Making it responsive */
+            @media (max-width: 768px) {
+                .text-logo {
+                    font-size: 1.5rem; /* Smaller size for tablets */
+                }
+            }
+        
+            @media (max-width: 480px) {
+                .text-logo {
+                    font-size: 1.2rem; /* Even smaller size for mobile devices */
+                }
+            }
+        </style>
+        
+        <div class="hidden md:flex items-center space-x-6">
+           
+            <a href="{% url 'hub:rules' %}" class="text-gray-300 hover:text-white transition-colors duration-300">Play</a>
+            <a href="{% url 'hub:leaderboard' %}" class="text-gray-300 hover:text-white transition-colors duration-300">Leaderboard</a>
+            <a href="{% url 'hub:profile_view' %}" class="text-gray-300 hover:text-white transition-colors duration-300">Profile</a>
+
+            <a href="/accounts/logout"><button class="px-4 py-1.5 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors duration-300">Logout</button></a>
+
+        </div>
+        <button class="md:hidden text-white">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-16 6h16"></path>
+            </svg>
+        </button>
+    </nav>
+</header>
+
+{% block content %}
+
+{% endblock %}
+
+</body>
+</html>
+

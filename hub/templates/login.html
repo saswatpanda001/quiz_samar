@@ -1,0 +1,44 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    
+</head>
+<body class="bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 flex items-center justify-center min-h-screen">
+
+  <!-- Login Form Container -->
+  <div class="bg-white p-8 rounded-lg shadow-xl max-w-sm w-full">
+    <h2 class="text-3xl font-semibold text-center text-gray-800 mb-6">Login</h2>
+
+    <!-- Login Form -->
+    <form action="#" method="POST">
+      <!-- Email Field -->
+      <div class="mb-4">
+        <label for="email" class="block text-gray-700">Email Address</label>
+        <input type="email" id="email" name="email" class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-pink-400 focus:outline-none" required>
+      </div>
+
+      <!-- Password Field -->
+      <div class="mb-6">
+        <label for="password" class="block text-gray-700">Password</label>
+        <input type="password" id="password" name="password" class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-pink-400 focus:outline-none" required>
+      </div>
+
+      <!-- Submit Button -->
+      <button type="submit" class="w-full py-3 bg-pink-500 text-white font-semibold rounded-lg shadow-md hover:bg-pink-400 focus:outline-none focus:ring-2 focus:ring-pink-600 focus:ring-opacity-50">Login</button>
+    </form>
+
+    <!-- Links -->
+    <div class="text-center mt-4">
+      <a href="#" class="text-pink-500 hover:underline">Forgot Password?</a>
+      <p class="mt-2 text-gray-600">Don't have an account? <a href="#" class="text-pink-500 hover:underline">Sign Up</a></p>
+    </div>
+  </div>
+
+</body>
+</html>

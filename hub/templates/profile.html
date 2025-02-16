@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load tz %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+  <div class="grid grid-cols-1 gap-8">
+    <!-- Profile Info Section -->
+    <div class="bg-white shadow-lg rounded-lg p-6">
+      <div class="text-center">
+        <img src="{{ profile.profile_picture.url }}" alt="Profile Picture" class="w-32 h-32 rounded-full mx-auto border-4 border-blue-400">
+        <h2 class="text-3xl font-bold text-gray-800 mt-4">{{ profile.user.username }}</h2>
+        <p class="text-gray-600 mt-2"><strong>Email:</strong> {{ profile.user.email }}</p>
+        <p class="text-gray-600 mt-2"><strong>Phone:</strong> {{ profile.phone }}</p>
+        <p class="text-gray-600 mt-2"><strong>Address:</strong> {{ profile.address }}</p>
+        <a href="{% url 'hub:profile_edit' %}" class="mt-4 inline-block bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition">
+          Edit Profile
+        </a>
+      </div>
+    </div>
+
+    <!-- Additional Info Section -->
+    <div class="space-y-8">
+      <!-- Quiz History Section -->
+      <div class="bg-white shadow-lg rounded-lg p-6">
+        <h3 class="text-2xl font-semibold text-gray-800 mb-4">Quiz History</h3>
+        {% if quiz_data %}
+          <ul class="space-y-4">
+            {% for quiz in quiz_data %}
+              <li class="border-b border-gray-200 pb-3">
+                <div class="flex justify-between items-center">
+                  <a href="{% url 'hub:quiz_details' quiz.quiz_id %}"><span class="font-medium text-gray-700">{{ quiz.quiz_id }}</span></a>
+                  <span class="text-sm text-gray-500">{{ quiz.time_started|localtime|date:"M d, Y" }}</span>
+                </div>
+                <div class="mt-1 text-gray-600">
+                  Score: <span class="font-semibold">{{ quiz.total_score }}</span> 
+                </div>
+              </li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <p class="text-gray-600">You haven't attempted any quizzes yet.</p>
+        {% endif %}
+      </div>
+
+      <!-- Badges Earned Section -->
+      <div class="bg-white shadow-lg rounded-lg p-6">
+        <h3 class="text-2xl font-semibold text-gray-800 mb-4">Badges Earned</h3>
+        {% if badge_data %}
+          <div class="flex flex-wrap gap-4">
+            {% for badge in badge_data %}
+              <div class="flex flex-col items-center">
+                <img src="{{ badge.badge.pic.url }}" alt="{{ badge.badge.name }}" class="w-16 h-16 rounded-full border-2 border-gray-300">
+                <span class="mt-2 text-sm text-gray-700">{{ badge.badge.name }}</span>
+              </div>
+            {% endfor %}
+          </div>
+        {% else %}
+          <p class="text-gray-600">No badges earned yet. Keep taking quizzes to earn badges!</p>
+        {% endif %}
+      </div>
+
+      <!-- Achievements / Other Stats Section -->
+      <div class="bg-white shadow-lg rounded-lg p-6">
+        <h3 class="text-2xl font-semibold text-gray-800 mb-4">Achievements & Stats</h3>
+        <p class="text-gray-600">
+          <!-- You can insert more detailed statistics or achievements here. -->
+          Overall, you have taken <strong>{{ quiz_data|length }}</strong> quizzes and earned an average score of 
+          <strong>{{ avg_score }}</strong>%. Keep up the great work!
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

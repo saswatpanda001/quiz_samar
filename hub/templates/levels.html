@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+
+    <div class="bg-white shadow-lg rounded-lg p-6 max-w-3xl w-full text-center">
+        <h1 class="text-2xl font-bold text-gray-800">Select a Level</h1>
+        <div class="grid grid-cols-5 gap-4 mt-6">
+            <!-- Generate levels dynamically -->
+            <script>
+                for (let i = 1; i <= 50; i++) {
+                    document.write(`
+                        <button class="level-btn bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-600 transition"
+                            onclick="openModal(${i})">
+                            Level ${i}
+                        </button>
+                    `);
+                }
+            </script>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="quizModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center">
+        <div class="bg-white p-6 rounded-lg shadow-lg max-w-sm text-center">
+            <h2 class="text-xl font-bold text-gray-700">Start Quiz?</h2>
+            <p class="text-gray-600 mt-2">You have selected <span id="selectedLevel" class="font-bold text-blue-500"></span></p>
+            <div class="mt-4 flex justify-center gap-4">
+                <form method="POST" action="{% url 'hub:levels' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="level" id="levelInput">
+                    <button type="submit" onclick="startQuiz()" class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600">Start</button>
+                </form>
+                
+                <button onclick="closeModal()" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let choosed_level=0;
+
+        function openModal(level) {
+            document.getElementById("selectedLevel").innerText = "Level " + level;
+            document.getElementById("quizModal").classList.remove("hidden");
+            choosed_level = level;            
+        }
+
+
+        function closeModal() {
+            document.getElementById("quizModal").classList.add("hidden");
+        }
+
+        function startQuiz() {
+            document.getElementById("levelInput").value = choosed_level;  // Set hidden input value
+            console.log("Selected Level:", choosed_level);
+            closeModal();
+        }
+    </script>
+
+{% endblock %}

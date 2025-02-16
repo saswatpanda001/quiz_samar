@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        welcome: {
+                            start: '#FFD6D6',
+                            end: '#FFB8B8'
+                        },
+                        howto: {
+                            start: '#D6E4FF',
+                            end: '#B8C9FF'
+                        },
+                        benefits: {
+                            start: '#D6FFD6',
+                            end: '#B8FFB8'
+                        },
+                        skills: {
+                            start: '#FFE8D6',
+                            end: '#FFD4B8'
+                        },
+                        networking: {
+                            start: '#D6FFE8',
+                            end: '#B8FFD4'
+                        },
+                        interview: {
+                            start: '#E8D6FF',
+                            end: '#D4B8FF'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .card {
+            transition: all 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px) scale(1.02);
+        }
+
+        .gradient-welcome {
+            background: linear-gradient(135deg, #FFD6D6 0%, #FFB8B8 100%);
+        }
+        
+        .gradient-howto {
+            background: linear-gradient(135deg, #D6E4FF 0%, #B8C9FF 100%);
+        }
+        
+        .gradient-benefits {
+            background: linear-gradient(135deg, #D6FFD6 0%, #B8FFB8 100%);
+        }
+        
+        .gradient-skills {
+            background: linear-gradient(135deg, #FFE8D6 0%, #FFD4B8 100%);
+        }
+        
+        .gradient-networking {
+            background: linear-gradient(135deg, #D6FFE8 0%, #B8FFD4 100%);
+        }
+        
+        .gradient-interview {
+            background: linear-gradient(135deg, #E8D6FF 0%, #D4B8FF 100%);
+        }
+
+        .card-content {
+            transition: all 0.3s ease;
+        }
+
+        .extra-content {
+            max-height: 0;
+            opacity: 0;
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        .card:hover .extra-content {
+            max-height: 200px;
+            opacity: 1;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-900 to-gray-800 min-h-screen">
+    <!-- Header -->
+    <header class="bg-black/80 backdrop-blur-sm fixed w-full top-0 z-50">
+        <nav class="container mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center">
+                <span class="text-logo">Guhuza</span>
+            </div>
+            
+            <style>
+                /* Basic styling for the text logo */
+                .text-logo {
+                    font-family: 'Arial', sans-serif; /* You can change this to any font-family you prefer */
+                    font-size: 2rem; /* Adjust the size as needed */
+                    font-weight: bold;
+                    color: white; /* Change the color to match your theme */
+                    text-transform: uppercase;
+                }
+            
+                /* Making it responsive */
+                @media (max-width: 768px) {
+                    .text-logo {
+                        font-size: 1.5rem; /* Smaller size for tablets */
+                    }
+                }
+            
+                @media (max-width: 480px) {
+                    .text-logo {
+                        font-size: 1.2rem; /* Even smaller size for mobile devices */
+                    }
+                }
+            </style>
+            
+            <div class="hidden md:flex items-center space-x-6">
+                
+                <a href="/accounts/login"><button class="px-4 py-1.5 text-white border border-gray-600 rounded-md hover:bg-gray-800 transition-colors duration-300">Sign In</button></a>
+                <a href="/accounts/signup"><button class="px-4 py-1.5 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors duration-300">Sign Up</button></a>
+                
+            </div>
+            <button class="md:hidden text-white">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-16 6h16"></path>
+                </svg>
+            </button>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 pt-24 pb-12">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Welcome Card -->
+            <div class="card gradient-welcome rounded-xl p-6 shadow-lg hover:shadow-2xl">
+                <div class="card-content">
+                    <h2 class="text-xl font-bold mb-3 text-gray-800">Welcome to Guhuza</h2>
+                    <p class="text-gray-700 mb-4">
+                        Guhuza is a web-based game that engages users through the job-seeking and hiring process.
+                    </p>
+                    <div class="extra-content">
+                        <p class="text-gray-600">
+                            Compete with other players, improve your skills, and experience the excitement of finding your dream job in a fun and interactive way!
+                        </p>
+                        <button class="mt-4 px-6 py-2 bg-pink-500 text-white rounded-md hover:bg-pink-600 transition-colors duration-300">Get Started</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- How to Play Card -->
+            <div class="card gradient-howto rounded-xl p-6 shadow-lg hover:shadow-2xl">
+                <div class="card-content">
+                    <h2 class="text-xl font-bold mb-3 text-gray-800">How to Play</h2>
+                    <p class="text-gray-700 mb-4">
+                        Click "Play" in the navigation bar. You'll be guided through various job-seeking scenarios.
+                    </p>
+                    <div class="extra-content">
+                        <p class="text-gray-600">
+                            Complete challenges, apply for positions, and compete with other players for the highest score!
+                        </p>
+                        <button class="mt-4 px-6 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors duration-300">Play Now</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Benefits Card -->
+            <div class="card gradient-benefits rounded-xl p-6 shadow-lg hover:shadow-2xl">
+                <div class="card-content">
+                    <h2 class="text-xl font-bold mb-3 text-gray-800">Benefits of Playing</h2>
+                    <ul class="text-gray-700 mb-4 list-disc list-inside space-y-2">
+                        <li>Improve your job-seeking skills</li>
+                        <li>Network with other players</li>
+                    </ul>
+                    <div class="extra-content">
+                        <ul class="text-gray-600 list-disc list-inside space-y-2">
+                            <li>Win exciting prizes and rewards</li>
+                            <li>Build your professional profile</li>
+                        </ul>
+                        <button class="mt-4 px-6 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition-colors duration-300">Register Now</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Skills Development Card -->
+            <div class="card gradient-skills rounded-xl p-6 shadow-lg hover:shadow-2xl">
+                <div class="card-content">
+                    <h2 class="text-xl font-bold mb-3 text-gray-800">Skills Development</h2>
+                    <p class="text-gray-700 mb-4">
+                        Enhance your professional skills through interactive challenges and quests.
+                    </p>
+                    <div class="extra-content">
+                        <ul class="text-gray-600 list-disc list-inside space-y-2">
+                            <li>Specialized training exercises</li>
+                            <li>Progress tracking</li>
+                            <li>Skill assessments</li>
+                        </ul>
+                        <button class="mt-4 px-6 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-600 transition-colors duration-300">Start Training</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Networking Card -->
+            <div class="card gradient-networking rounded-xl p-6 shadow-lg hover:shadow-2xl">
+                <div class="card-content">
+                    <h2 class="text-xl font-bold mb-3 text-gray-800">Networking</h2>
+                    <p class="text-gray-700 mb-4">
+                        Expand your professional network in a fun, gamified environment.
+                    </p>
+                    <div class="extra-content">
+                        <ul class="text-gray-600 list-disc list-inside space-y-2">
+                            <li>Connect with other job seekers</li>
+                            <li>Join industry groups</li>
+                            <li>Participate in events</li>
+                        </ul>
+                        <button class="mt-4 px-6 py-2 bg-teal-500 text-white rounded-md hover:bg-teal-600 transition-colors duration-300">Connect Now</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Interview Practice Card -->
+            <div class="card gradient-interview rounded-xl p-6 shadow-lg hover:shadow-2xl">
+                <div class="card-content">
+                    <h2 class="text-xl font-bold mb-3 text-gray-800">Interview Practice</h2>
+                    <p class="text-gray-700 mb-4">
+                        Prepare for job interviews with our interactive simulations.
+                    </p>
+                    <div class="extra-content">
+                        <ul class="text-gray-600 list-disc list-inside space-y-2">
+                            <li>AI-powered mock interviews</li>
+                            <li>Real-time feedback</li>
+                            <li>Interview tips and tricks</li>
+                        </ul>
+                        <button class="mt-4 px-6 py-2 bg-purple-500 text-white rounded-md hover:bg-purple-600 transition-colors duration-300">Practice Now</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Mobile Menu -->
+    <div class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-50" id="mobile-menu">
+        <div class="flex flex-col items-center justify-center h-full space-y-6">
+           
+            <button class="px-6 py-2 text-white border border-white rounded-md">Sign In</button>
+            <button class="px-6 py-2 bg-blue-600 text-white rounded-md">Sign Up</button>
+        </div>
+    </div>
+
+    <script>
+        // Header scroll effect
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 0) {
+                header.classList.add('shadow-lg');
+            } else {
+                header.classList.remove('shadow-lg');
+            }
+        });
+
+        // Mobile menu toggle
+        const menuButton = document.querySelector('button.md\\:hidden');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        menuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Close mobile menu when clicking outside
+        mobileMenu.addEventListener('click', (e) => {
+            if (e.target === mobileMenu) {
+                mobileMenu.classList.add('hidden');
+            }
+        });
+    </script>
+</body>
+</html>

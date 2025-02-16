@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% load static %}
+{% load tz %}
+
+{% block content %}
+<div class="container mx-auto p-6">
+  <!-- Quiz Summary Section -->
+  <div class="mb-8">
+    <h1 class="text-3xl font-bold text-gray-800 text-center mb-6">Quiz Details</h1>
+    <div class="bg-white shadow-lg rounded-lg p-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Left Column -->
+        <div>
+          <p class="text-gray-600"><span class="font-semibold">Quiz ID:</span> {{ quiz_data.quiz_id }}</p>
+          <p class="text-gray-600"><span class="font-semibold">Status:</span> {{ quiz_data.status|title }}</p>
+          <p class="text-gray-600"><span class="font-semibold">Score:</span> {{ quiz_data.total_score }}</p>
+          <p class="text-gray-600"><span class="font-semibold">Correct:</span> {{ quiz_data.total_correct }}</p>
+          <p class="text-gray-600"><span class="font-semibold">Incorrect:</span> {{ quiz_data.total_incorrect }}</p>
+        </div>
+        <!-- Right Column -->
+        <div>
+          <p class="text-gray-600"><span class="font-semibold">Skipped:</span> {{ quiz_data.total_skipped }}</p>
+          <p class="text-gray-600"><span class="font-semibold">Unattempted:</span> {{ quiz_data.total_unattempted }}</p>
+          <p class="text-gray-600"><span class="font-semibold">Started At:</span> {{ quiz_data.time_started|date:"M d, Y H:i" }}</p>
+          <p class="text-gray-600"><span class="font-semibold">Submitted At:</span> {{ quiz_data.time_submit|date:"M d, Y H:i" }}</p>
+          <p class="text-gray-600"><span class="font-semibold">Total Time:</span> {{ quiz_data.total_time }} seconds</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quiz Responses Section -->
+  <div>
+    <h2 class="text-2xl font-bold text-gray-800 mb-4">Attempted Questions</h2>
+    {% if response_data %}
+      <div class="space-y-6">
+        {% for response in response_data %}
+          <div class="bg-white shadow rounded-lg p-6">
+            <h3 class="text-xl font-semibold text-gray-800 mb-2">
+              Level {{response.question.levels}} Q{{ response.question.num }}: {{ response.question.question }}
+            </h3>
+            <ul class="list-disc ml-6 space-y-1 text-gray-700">
+              <li><span class="font-medium">Option 1:</span> {{ response.question.option1 }}</li>
+              <li><span class="font-medium">Option 2:</span> {{ response.question.option2 }}</li>
+              <li><span class="font-medium">Option 3:</span> {{ response.question.option3 }}</li>
+              <li><span class="font-medium">Option 4:</span> {{ response.question.option4 }}</li>
+            </ul>
+            <div class="mt-4">
+              <p class="text-gray-600">
+                <span class="font-semibold">Your Answer:</span>
+                {% if response.selected_option %}
+                  Option {{ response.selected_option }}
+                {% else %}
+                  <span class="italic">Not Attempted</span>
+                {% endif %}
+              </p>
+              <p class="text-gray-600">
+                <span class="font-semibold">Correct Answer:</span> Option {{ response.question.correct_option }} - {{ response.question.correct_answer }}
+              </p>
+              <p class="text-gray-600">
+                <span class="font-semibold">Status:</span> {{ response.status|title }}
+              </p>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p class="text-gray-600">No responses found for this quiz.</p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %} 
