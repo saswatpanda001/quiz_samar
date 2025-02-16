@@ -42,7 +42,8 @@
         </style>
         
         <div class="hidden md:flex items-center space-x-6">
-           
+            <a class="text-gray-300 hover:text-white transition-colors duration-300">Hi {{request.user.username}}</a>
+            <a href="{% url 'hub:dashboard' %}" class="text-gray-300 hover:text-white transition-colors duration-300">Home</a>
             <a href="{% url 'hub:rules' %}" class="text-gray-300 hover:text-white transition-colors duration-300">Play</a>
             <a href="{% url 'hub:leaderboard' %}" class="text-gray-300 hover:text-white transition-colors duration-300">Leaderboard</a>
             <a href="{% url 'hub:profile_view' %}" class="text-gray-300 hover:text-white transition-colors duration-300">Profile</a>

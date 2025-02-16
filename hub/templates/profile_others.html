@@ -13,9 +13,11 @@
         <p class="text-gray-600 mt-2"><strong>Email:</strong> {{ profile.user.email }}</p>
         <p class="text-gray-600 mt-2"><strong>Phone:</strong> {{ profile.phone }}</p>
         <p class="text-gray-600 mt-2"><strong>Address:</strong> {{ profile.address }}</p>
+        {% if request.user.username == profile.user.username %}
         <a href="{% url 'hub:profile_edit' %}" class="mt-4 inline-block bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition">
           Edit Profile
         </a>
+        {% endif %}
       </div>
     </div>
 

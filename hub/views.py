@@ -9,6 +9,7 @@ from hub.forms import UserProfileForm
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from hub.tasks import increment_counter
+from django.utils import timezone
 import uuid 
 
 @login_required
@@ -101,6 +102,27 @@ def quiz_completed(request,quiz_idd,level):
         else:
             quiz_data=  quiz_data[0]
             data = {"quiz_data":quiz_data}
+
+            quiz_data.status = "completed"
+            quiz_data.time_submit=timezone.now()
+            
+            end_level = quiz_data.current_level
+            if quiz_data.current_question==1:
+                if end_level>1:
+                    end_level-=1
+            
+            quiz_data.level_end = end_level
+            print("end_level: ",end_level)
+            quiz_data.save()
+
+            user_data = UserProfile.objects.filter(user=request.user)[0]
+            if user_data.top_score<quiz_data.total_score:
+                user_data.top_score_quiz = quiz_data
+                user_data.top_score = quiz_data.total_score
+                user_data.save()
+            
+
+
           
             return render(request, "quiz_complete.html",data)
 
@@ -274,8 +296,8 @@ def update_quiz_data(request):
             status = data.get("status")
             score = data.get("score")
             qid = data.get("qid")
-            qlevel=data.get("qlevel")
-            qno = data.get("qno")
+            qlevel=int(data.get("qlevel"))
+            qno = int(data.get("qno"))
             time = data.get("totalTimeSpend")
             selected_option = data.get("selectedOption")
             if selected_option=="none":
@@ -295,16 +317,19 @@ def update_quiz_data(request):
             if status=="skipped":
                 quiz_data.total_skipped+=1
             
-            if qno<="9":
+            print("trying to update current ques and levels")
+            if qlevel==50:
+                if qno==10:
+                    pass
+                else:
                     quiz_data.current_question+=1
-                
-
-            if qlevel<="49":
-                if qno=="10":
+            else:
+                if qno==10:
                     quiz_data.current_level+=1
                     quiz_data.current_question=1
-            else:
-                print("gameover")
+                else:
+                    quiz_data.current_question+=1
+
             quiz_data.total_time = time
             
            
