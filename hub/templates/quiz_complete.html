@@ -27,7 +27,7 @@
         <!-- Total Time Taken -->
         <div class="bg-green-100 rounded-lg p-4 text-center">
           <h2 class="text-xl font-semibold text-green-800">Total Time</h2>
-          <p class="text-3xl font-bold text-green-900 mt-2">{{ total_time }}</p>
+          <p class="text-3xl font-bold text-green-900 mt-2">{{ quiz_data.total_time }}</p>
         </div>
         <!-- Correct Answers -->
         <div class="bg-green-200 rounded-lg p-4 text-center">
@@ -39,6 +39,19 @@
           <h2 class="text-xl font-semibold text-red-800">Incorrect</h2>
           <p class="text-3xl font-bold text-red-900 mt-2">{{ quiz_data.total_incorrect }}</p>
         </div>
+
+        <!-- Correct Answers -->
+        <div class="bg-green-200 rounded-lg p-4 text-center">
+          <h2 class="text-xl font-semibold text-green-800">Start Level</h2>
+          <p class="text-3xl font-bold text-green-900 mt-2">{{ quiz_data.level_start }}</p>
+        </div>
+        <!-- Incorrect Answers -->
+        <div class="bg-red-200 rounded-lg p-4 text-center">
+          <h2 class="text-xl font-semibold text-red-800">End Level</h2>
+          <p class="text-3xl font-bold text-red-900 mt-2">{{ quiz_data.level_end }}</p>
+        </div>
+
+
         <!-- Skipped Questions (full width) -->
         <div class="bg-yellow-200 rounded-lg p-4 text-center col-span-2">
           <h2 class="text-xl font-semibold text-yellow-800">Skipped</h2>

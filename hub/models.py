@@ -76,7 +76,7 @@ class QuizModel(models.Model):
     current_question = models.IntegerField(default=0,blank=True, null=True)
     time_remaining = models.IntegerField(default=0,blank=True, null=True)
     total_time = models.IntegerField(default=0,blank=True, null=True)
-    status = models.CharField(max_length=100,default="notstarted",blank=True, null=True)
+    status = models.CharField(max_length=100,default="started",blank=True, null=True)
 
 
 

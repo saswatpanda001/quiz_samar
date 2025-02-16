@@ -222,11 +222,10 @@
     // Total quiz time counter (keeps counting up)
     function timeSpend() {
       let totalTimeSpendElement = document.getElementById("quizTimer");
-      let totalTimeSpend = parseInt(totalTimeSpendElement.textContent, 10);
+     
       setInterval(() => {
         totalTimeSpend++;
         totalTimeSpendElement.textContent = totalTimeSpend;
-        console.log(totalTimeSpend);
       }, 1000);
     }
     timeSpend();
@@ -344,6 +343,7 @@
     // Function to send the AJAX POST request
     function sendQuizData() {
         console.log("sending_data_for_update");
+        console.log(totalTimeSpend)
         fetch(url, {
         method: "POST",
         headers: {
@@ -409,21 +409,37 @@
 
 
 
-    history.pushState(null, null, location.href);
-  window.addEventListener('popstate', function (event) {
-    // When user clicks back, push the current state again to prevent back navigation
-    history.pushState(null, null, location.href);
-  });
 
 
-    // Disable reload via Ctrl+R and F5 key
-    document.addEventListener("keydown", function (event) {
-        // Check for Ctrl+R (or Cmd+R on Mac) or F5
-        if ((event.ctrlKey && (event.key === 'r' || event.key === 'R')) || event.keyCode === 116) {
-        event.preventDefault();
-        // Optionally, show a message to the user
-        console.log("Page reload disabled");
+      // Disable reload via Ctrl+R and F5 key
+      document.addEventListener("keydown", function (event) {
+          // Check for Ctrl+R (or Cmd+R on Mac) or F5
+          if ((event.ctrlKey && (event.key === 'r' || event.key === 'R')) || event.keyCode === 116) {
+          event.preventDefault();
+          }
+      });
+
+      window.addEventListener( "pageshow", function ( event ) {
+        var historyTraversal = event.persisted || 
+                              ( typeof window.performance != "undefined" && 
+                                    window.performance.navigation.type === 2 );
+        if ( historyTraversal ) {
+          // Handle page restore.
+          window.location.reload();
         }
+        if(performance.navigation.type == 2){
+          location.reload(true);
+        }
+
+      });
+
+
+     
+
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "F5") {
+        event.preventDefault();
+      }
     });
 
 

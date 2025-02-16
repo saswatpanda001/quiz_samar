@@ -88,7 +88,7 @@ def level_completed(request,quiz_idd,level):
             if each.status=="skipped":
                 skipped+=1
             
-        data = {"skipped":skipped,"correct":correct,"incorrect":incorrect,"score":score,"level":level,"quiz_id":quiz_idd,"next_level":level+1}
+        data = {"total_time":quiz_data.total_time,"skipped":skipped,"correct":correct,"incorrect":incorrect,"score":score,"level":level,"quiz_id":quiz_idd,"next_level":level+1}
         return render(request, "level_complete.html",data)
 
 
@@ -226,6 +226,15 @@ def quiz(request,quiz_idd,level,ques):
             
             
         else:
+            
+            if quiz_data:
+                print("yes")
+                if quiz_data.status=="started":
+                    return redirect("hub:quiz", quiz_idd=quiz_data.quiz_id, level=quiz_data.current_level, ques=quiz_data.current_question)
+                elif quiz_data.status=="completed":
+                    return redirect("hub:quiz_comp", quiz_idd=quiz_data.quiz_id, level=quiz_data.current_level)
+                    
+            
             return render(request,"error.html")
 
     else:
