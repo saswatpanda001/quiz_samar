@@ -121,6 +121,33 @@ def quiz_completed(request,quiz_idd,level):
                 user_data.top_score = quiz_data.total_score
                 user_data.save()
             
+            if quiz_data.total_score>=1400 and quiz_data.total_score<1600:
+                bdg = QuizBadges.objects.create(
+                    badge=Badge.objects.filter(name="Bronze")[0],
+                    user = request.user,
+                    quiz = quiz_data
+                )
+                bdg.save()
+            elif quiz_data.total_score<=1600 and quiz_data.total_score<1800:
+                bdg = QuizBadges.objects.create(
+                    badge=Badge.objects.filter(name="Silver")[0],
+                    user = request.user,
+                    quiz = quiz_data
+                )
+                bdg.save()
+            elif quiz_data.total_score>=1800:
+                bdg = QuizBadges.objects.create(
+                    badge=Badge.objects.filter(name="Gold")[0],
+                    user = request.user,
+                    quiz = quiz_data
+                )
+                bdg.save()
+            
+            
+            
+            
+
+            
 
 
           
