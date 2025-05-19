@@ -220,22 +220,142 @@
                 </div>
             </div>
 
-            <!-- Interview Practice Card -->
-            <div class="card gradient-interview rounded-xl p-6 shadow-lg hover:shadow-2xl">
+            <div class="card gradient-networking rounded-xl p-6 shadow-lg hover:shadow-2xl">
                 <div class="card-content">
-                    <h2 class="text-xl font-bold mb-3 text-gray-800">Interview Practice</h2>
+                    <h2 class="text-xl font-bold mb-3 text-gray-800">Networking</h2>
                     <p class="text-gray-700 mb-4">
-                        Prepare for job interviews with our interactive simulations.
+                        Expand your professional network in a fun, gamified environment.
                     </p>
                     <div class="extra-content">
                         <ul class="text-gray-600 list-disc list-inside space-y-2">
-                            <li>AI-powered mock interviews</li>
-                            <li>Real-time feedback</li>
-                            <li>Interview tips and tricks</li>
+                            <li>Connect with other job seekers</li>
+                            <li>Join industry groups</li>
+                            <li>Participate in events</li>
                         </ul>
-                             </div>
+                              </div>
                 </div>
             </div>
+
+            <!-- QR Code Sharing Card -->
+<div class="card gradient-qr rounded-xl p-6 shadow-lg hover:shadow-2xl">
+    <div class="card-content">
+        <h2 class="text-xl font-bold mb-3 text-blue-800">Share via QR Code</h2>
+        <p class="text-gray-700 mb-4">Enter a link to generate a QR code for easy sharing.</p>
+
+        <!-- Input field for the link -->
+        <input type="text" id="linkInput" placeholder="Enter the URL" 
+               class="w-full p-2 border border-gray-300 rounded-lg mb-4 focus:ring-2 focus:ring-blue-500">
+
+        <!-- Generate QR Code Button -->
+        <button onclick="generateQRCode()" 
+                class="mt-4 w-full bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700">
+            Generate QR Code
+        </button>
+
+        <!-- QR Code Container -->
+        <div id="qrcode-container" class="mt-4 flex justify-center hidden">
+            <div id="qrcode"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Include QR Code Library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+<script>
+    function generateQRCode() {
+        var link = document.getElementById("linkInput").value.trim();
+        if (!link) {
+            alert("Please enter a valid URL.");
+            return;
+        }
+
+        // Clear previous QR code
+        document.getElementById("qrcode").innerHTML = "";
+
+        // Generate new QR code
+        new QRCode(document.getElementById("qrcode"), {
+            text: link,
+            width: 150,
+            height: 150
+        });
+
+        // Show the QR code container
+        document.getElementById("qrcode-container").classList.remove("hidden");
+    }
+</script>
+
+
+
+           <!-- WhatsApp Sharing Card -->
+<div class="card gradient-networking rounded-xl p-6 shadow-lg hover:shadow-2xl">
+    <div class="card-content">
+        <h2 class="text-xl font-bold mb-3 text-green-800">Share using WhatsApp</h2>
+        <p class="text-gray-700 mb-4">Enter the recipient's phone number and click "Share via WhatsApp".</p>
+
+        <!-- Input field for phone number -->
+        <input type="tel" id="phoneInput" placeholder="Enter recipient's phone number (with country code)" 
+               class="w-full p-2 border border-gray-300 rounded-lg mb-4 focus:ring-2 focus:ring-green-500">
+        
+        <div class="extra-content">
+            <ul class="text-gray-600 list-disc list-inside space-y-2">
+                <li>Connect with other job seekers</li>
+                <li>Quick and easy sharing</li>
+            </ul>
+        </div>
+
+        <!-- WhatsApp Share Button -->
+        <button onclick="shareViaWhatsApp()" 
+                class="mt-4 w-full bg-green-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-green-700">
+            Share via WhatsApp
+        </button>
+    </div>
+</div>
+
+<script>
+    function shareViaWhatsApp() {
+        var phone = document.getElementById("phoneInput").value.trim();
+        if (!phone) {
+            alert("Please enter a recipient's phone number.");
+            return;
+        }
+
+        var message = encodeURIComponent("Hey, check this out! [Your Link Here]");
+        
+        var whatsappUrl = `https://wa.me/${phone}?text=${message}`;
+        window.open(whatsappUrl, "_blank");
+    }
+</script>
+
+
+
+<!-- Interview Practice Card -->
+<div class="card gradient-interview rounded-xl p-6 shadow-lg hover:shadow-2xl">
+    <div class="card-content">
+        <h2 class="text-xl font-bold mb-3 text-red-800">Share using Gmail</h2>
+        <p class="text-gray-700 mb-4">Enter the recipient's email and click "Share via Gmail".</p>
+        
+        <!-- Input field for email -->
+        <input type="email" id="emailInput" placeholder="Enter recipient's email" 
+               class="w-full p-2 border border-gray-300 rounded-lg mb-4 focus:ring-2 focus:ring-red-500">
+        
+        <div class="extra-content">
+            <ul class="text-gray-600 list-disc list-inside space-y-2">
+                <li>Easy sharing via email</li>
+                <li>Customizable subject and message</li>
+            </ul>
+        </div>
+        
+        <!-- Gmail Share Button -->
+        <button onclick="shareViaGmail()" 
+                class="mt-4 w-full bg-red-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-red-700">
+            Share via Gmail
+        </button>
+    </div>
+</div>
+
+
+
         </div>
     </main>
 
@@ -249,6 +369,20 @@
     </div>
 
     <script>
+        function shareViaGmail() {
+        var email = document.getElementById("emailInput").value.trim();
+        if (!email) {
+            alert("Please enter a recipient's email.");
+            return;
+        }
+        
+        var subject = encodeURIComponent("Check this out!");
+        var body = encodeURIComponent("Hey, I found this interesting quiz app http://localhost:8000");
+        
+        var gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${email}&su=${subject}&body=${body}`;
+        window.open(gmailUrl, "_blank");
+    }
+
         // Header scroll effect
         window.addEventListener('scroll', () => {
             const header = document.querySelector('header');

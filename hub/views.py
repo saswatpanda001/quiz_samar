@@ -50,7 +50,7 @@ def profile_view_others(request,id):
     return render(request, 'profile_others.html', data)
 
 
-
+    
 
 @login_required
 def profile_edit(request):
